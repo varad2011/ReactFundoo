@@ -1,0 +1,138 @@
+.header{
+    color :navy;
+    width: 200px;
+    height: 220px;
+    padding: 20px;
+    margin-left: 800px;
+
+    background-color: lightblue;
+    box-sizing: content-box;
+    border-top-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+}
+.userids{
+    background:lightsteelblue;
+ 
+    
+}
+.password{
+    background:lightsteelblue;
+   
+}
+.registration{
+    color :navy;
+    width: 200px;
+    padding: 40px;
+    margin-left: 800px;
+     min-height: 200px;
+    background-color: lightblue;
+  
+    border-bottom-right-radius: 60px;
+}
+.registrationCotent{
+    background-color: tomato;
+    width: 200px;
+}
+.buttons{
+    size: 100px;
+}
+.nevigationBar{
+    background-color: lightblue;
+    background-position: inherit;
+    width:1400px;
+    height: 65px;
+    
+   
+}
+.serachfield{
+    width: 50px; 
+    margin-left: 500px;
+    height: 10px;
+    margin-top: 10px;
+    padding-top: 20px;
+  
+}
+
+.iconDashboarad{
+    background-color: lightgoldenrodyellow;
+    width: 30px; 
+    height: 30px;
+    margin-right: 30px;
+    padding-top: 30px;
+}
+#text{
+
+    height: 3px;
+    margin-left: 400px;
+    width: 300px;
+    padding-top: 23px;
+    text-align: center;
+    align-content: center;
+}
+.menuButton{
+    
+    margin-top: initial;
+   margin-left: 200px;
+ display: flex;
+ 
+    
+}
+.logoutButton{
+    height: '100%';
+    
+}
+
+.searchicon {
+    /* width: 400px; */
+    /* height: 20px; */
+    /* padding: 10px; */
+    margin: auto;
+
+}
+.menuButtonCss{
+    padding-left: 60px;
+    padding-top: 25px;
+    padding-bottom: 15px;
+    
+}
+.labelHeader{
+    padding-left: 20px;
+    color: lightseagreen;
+}
+.createNoteClick{
+    
+}
+.createNote {
+    padding: 40px;
+    background-color: beige;
+    width: 350px;
+    height: 200px;
+    margin-left: 200px;
+}
+.iconNotes{
+   padding: 10px;
+}
+.iconCloseNotes{
+   
+    padding: 10px;
+    margin-left: 70px;
+}
+.pin{
+    padding: 10px;
+    margin-left: 40px;
+
+}
+.displayNote{
+    background-color: rgb(225, 220, 245);
+    margin-left: 200px;
+    margin-right: 10px;
+}
+
+.singleNoteDisplay{
+   
+    border-color: #e0e0e0;
+    border-radius: 1px;
+    border-color: lawngreen;
+    width: 250px;
+    height: 150px;
+}
