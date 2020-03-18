@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextField } from '@material-ui/core';
 import { loginUser } from '../components/Service'
+import { Container } from '@material-ui/core';
 import './CssStyles.css'
 //import Clickfunction from './components/clickfunction'
 class Login extends React.Component {
@@ -61,33 +62,41 @@ class Login extends React.Component {
     }
     render() {
         return (
-            <div  >
+            <div className="header" >
 
-                <form className="header">
+                <Container >
                     <div>
-                        <h1>Login Page</h1>
+                        <h1 className = "headerName">Login Page </h1>
                     </div>
                     <div className="userids" >
-
-                        <TextField placeholder="UserId" name="emailId" value={this.state.emailId}
-                            onChange={this.handlChange}></TextField>
+                        <text className = "loginEmailIdText">EmailId</text>
+                       <div><TextField placeholder="EmailId" name="emailId" value={this.state.emailId}
+                            onChange={this.handlChange}></TextField></div> 
                     </div>
                     <div className="password" >
-
-                        <TextField placeholder="Passsword" name="password" value={this.state.password}
+                    <text className = "loginEmailIdPassword">Password</text>
+                    <div>
+                    <TextField placeholder="Passsword" name="password" value={this.state.password}
                             onChange={this.handlChange}></TextField>
                     </div>
-                    <div>
+                       
+                    </div>
+                    <div className = "loginButton">
+                    <div className = "registrationClickButton" >
+                        <button onClick={() => this.props.history.push("/registration")}>Registartion</button>
+                    </div>
+
+                    <div className = "loginClickButton">
                         <button
                             onClick={this.loginCheck}>
                             Login
                         </button>
 
                     </div>
-                    <div>
-                        <button onClick={() => this.props.history.push("/registration")}>Registartion</button>
+                   
                     </div>
-                </form>
+                    
+                </Container>
 
 
 
