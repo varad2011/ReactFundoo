@@ -94,3 +94,29 @@ export function displayArchievedList() {
         }
     });
 }
+export function getLabels() {
+    return axios.get('http://localhost:8080/label/labelDisplay', { params: { "token": sessionStorage.getItem('token') } }, {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
+}
+// export function getLabelNote (labelId) {
+//     return axios.get('http://localhost:8080/label/getNoteBylabelId',labelId, { params: { "token": sessionStorage.getItem('token') , 'labelId':labelId  } }, {
+//         headers: {
+//             "Content-Type": "application/json;charset=utf-8"
+//         }
+//     });
+// }
+export function getLabelNote(labelId) {
+    console.log(labelId)
+    return axios.get('http://localhost:8080/label/getNoteBylabelId',{ params:  { "labelId": labelId 
+    ,"token": sessionStorage.getItem('token')
+} }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
+       
+}
