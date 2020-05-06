@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 export function loginUser(UserLoginDto) {
-
-    console.log("comming from login", UserLoginDto)
-    return axios.post('http://localhost:8080/login/userLogin', UserLoginDto, {
+    return axios.post('http://localhost:8080/registration/userLogin', UserLoginDto, {
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         }
