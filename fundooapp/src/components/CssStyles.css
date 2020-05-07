@@ -144,7 +144,8 @@
     margin-left: 200px;
 }
 .iconNotes{
-   padding: 10px;
+    padding: 10px;
+    margin-left: 5px;
 }
 .iconCloseNotes{
    
@@ -157,16 +158,47 @@
 
 }
 .displayNote{
-    background-color: rgb(225, 220, 245);
-    margin-left: 200px;
+    background-color: rgba(245, 0, 87, 0.04);
+    margin-left: 290px;
     margin-right: 10px;
+    border-radius: 17px;
+    border: 1px solid transparent;
 }
 
 .singleNoteDisplay{
-   
     border-color: #e0e0e0;
     border-radius: 1px;
-    border-color: lawngreen;
     width: 250px;
     height: 150px;
+    padding: 5px;
+   
+}
+.pinNotes{
+
+    height: 26px;
+    /* margin-bottom: -20px; */
+    padding-bottom: -4px;
+    margin-top: 4px;
+    padding-left: 149px;
+    margin-left: 227px;
+    margin-right: 17px;
+    /* background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg==); */
+    /* margin: 4px; */
+    padding-top: -1px;
+
+}
+.displayNoteText{
+    -webkit-text-stroke: thin;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+.colorIcon{
+    border-radius: 20px;
+    height: 25px;
+    width: 25px;
+    margin: 3px;
+    margin-right: 5px;
+    border-color: #0c0c0c;
+    border: solid;
+}
 }
