@@ -15,7 +15,7 @@ class DisplayNotes extends Component {
             // pinUnpin : false,
             // archieve : false,
             // localdate :'',
-            store: []
+            store:[]
         };
     }
     componentDidMount() {
@@ -23,13 +23,11 @@ class DisplayNotes extends Component {
     }
 
     getNotesData = () => {
-
-        sortList().then(Response => {
-            
+     sortList().then(Response => {
             this.setState({
                 store: Response.data.data
             })
-    console.log(Response.data.data)
+    console.log("data" ,Response.data.data )
         })
             .catch((error) => {
                 alert(error.response)
@@ -55,6 +53,7 @@ class DisplayNotes extends Component {
                 {this.state.store.map(o => (
 
                     <Card className='singleNoteDisplay'>
+                        <div style = {{'backgroundImage':'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg==)'}}></div>
                         <PinDropIcon style={{ 'margin-left': '200px' }}  onClick={()=>this.setPinToNote(this.data.noteId)}/>
                         <div>
                             {o.title}
@@ -65,7 +64,7 @@ class DisplayNotes extends Component {
                         <div>
                             {/* <NoteIconOpration></NoteIconOpration> */}
                         </div>
-                       < NoteIconOpration data = {o.noteId}></NoteIconOpration>                      
+                       {/* < NoteIconOpration data = {o.noteId}></NoteIconOpration>                       */}
                     </Card>
                 ))
            }
