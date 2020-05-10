@@ -5,13 +5,23 @@ import NoteIconOpration from '../components/NoteIconOpration';
 import TrashIcons from '../components/TrashIcons';
 import CropPortraitIcon from '@material-ui/icons/CropPortrait';
 import SingleNoteDisplay from '../components/SingleNoteDisplay';
-import {displaySingleNote} from '../components/Service';
+import { displaySingleNote } from '../components/Service';
+import MenuItem from '@material-ui/core/MenuItem';
+import { AppBar, Button, Toolbar, IconButton, ListItemIcon } from '@material-ui/core';
+import ListItemText from '@material-ui/core/ListItemText';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import { SvgIcon } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
+import {removeReminderToNote} from '../components/Service';
+import {removeLabelFromNotes} from '../components/Service';
+
 class DisplayUnpinNotes extends Component {
     constructor(props) {
         super()
         this.state = {
-            displaySingleNote : false,
-            noteData :[]
+            displaySingleNote: false,
+            noteData: []
         }
     }
     openNoteDilogbox = () => {
@@ -23,68 +33,110 @@ class DisplayUnpinNotes extends Component {
         this.setState({ displaySingleNote: false });
     };
 
-    displayNoteData =(noteId)=>{
+    displayNoteData = (noteId) => {
         displaySingleNote(noteId).then(Response => {
             this.setState({
-                noteData : Response.data.data
+                noteData: Response.data.data
             })
             console.log(Response.data.data)
-          })
+        })
             .catch((error) => {
-                console.log(this.state.store)  
-              alert(error.response.message)
+                console.log(this.state.store)
+                alert(error.response.message)
             })
-        };
+    };
 
+removeAddedReminder = (noteId) => {
+    removeReminderToNote(noteId).then(Response => {
+        alert(Response.data.message)
+        console.log(Response.data.message)
+    })
+        .catch((error) => {
+            console.log(this.state.store)
+            alert(error.response.message)
+        })
+}
+    // notePinUnpin = (noteId) => {
+    //     pinUnpin(noteId).then(Response => {
+    //         console.log(Response.data.message)
+    //     })
+    //         .catch((error) => {
+    //             console.log(this.state.store)
+    //             alert(error.response.message)
+    //         })
+    // };
+
+    removeLabel = (labelId,noteId) =>{
+        removeLabelFromNotes(labelId, noteId ).then(Response => {
+            alert(Response.data.message)
+            console.log(Response.data.message)
+        })
+            .catch((error) => {
+                console.log(this.state.store)
+                alert(error.response.message)
+            }) 
+    }
     render() {
         return (
             <div className="displayNote" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}  >
                 {/* <ListItem>notes</ListItem> */}
-            {this.props.noteData.map(o => (
-               
-                <Card style = {{ "margin": '5px', "height": 'fit-content'}} >
-                     <div className='singleNoteDisplay'  style = {{"backgroundColor":o.backgroundColor}} >
-                     {(o.trash === false )? 
-                     <div  className = "pinNotes" style = {{ 'backgroundImage':'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==)'}}>                   
-                     {/* <CropPortraitIcon /> */}
-                     </div>
-                      : null}
-                    <div className = "displayNoteText" onClick ={()=>{ this.displayNoteData(o.noteId); this.openNoteDilogbox(); }}>
-                        {o.title}
-                    </div>
-                    <div className = "displayNoteText">
-                        {o.content}
-                    </div>
-                    <div className = "reminderDiv" >
-                    {o.noteReminder === true ? 
-                    <div>{o.reminderDatTime}</div> 
-                    : null }           
-                       
-                    </div>
-                    {(o.trash === true )? 
-                    <TrashIcons
-                      noteId = {o.noteId} 
-                     ></TrashIcons>
-                    :
-                    < NoteIconOpration data = {o.noteId} archieve = {o.archieve}></NoteIconOpration> 
-                    }
-                    {/* < TrashIcons noteId = {o.noteId}></TrashIcons>
+                {this.props.noteData.map(o => (
+                    <Card style={{ "margin": '5px', "height": 'fit-content' }} >
+                        <div className='singleNoteDisplay' style={{ "backgroundColor": o.backgroundColor }} >
+                            {(o.trash === false) ?
+                                <div className="pinNotes" 
+                                style={{ 'backgroundImage': 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==)' }}
+                                onClick = {()=>{this.props.pinUnpinNote(o.noteId);}}
+                                >
+                                    {/* <CropPortraitIcon /> */}
+                                </div>
+                                : null}
+                            <div className="displayNoteText" onClick={() => { this.displayNoteData(o.noteId); this.openNoteDilogbox(); }}>
+                                {o.title}
+                            </div>
+                            <div className="displayNoteText">
+                                {o.content}
+                            </div>
+                            <div className="reminderDiv" >
+                                {o.noteReminder === true ?
+                                    <MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' }}>
+                                        <div  style={{ "padding-top": '4px' }}> <AccessTimeIcon fontSize="small" /> </div>
+                                        <div>  {o.reminderDatTime}</div>
+                                        <div>
+                                            <CancelOutlinedIcon  style={{  "fontSize": '20px' }} onClick = {() =>{this.removeAddedReminder(o.noteId);}} />
+                                        </div>
+                                    </MenuItem>
+                                    : null}
+                                {o.labelModel.map(label => (
+                                    < MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' ,"padding-right": '0px' }}>
+                                    <div>  {label.labelName}</div>
+                                    <div>
+                                    <CancelOutlinedIcon  style={{  "fontSize": '20px' }}  onClick = {() =>{this.removeLabel(label.labelId, o.noteId);}}/>
+                                    </div>
+                                    </MenuItem>                                  
+                                ))}
+                            </div>
+                            {(o.trash === true) ?
+                                <TrashIcons
+                                    noteId={o.noteId}
+                                ></TrashIcons>
+                                :
+                                < NoteIconOpration data={o.noteId} archieve={o.archieve}></NoteIconOpration>
+                            }
+                            {/* < TrashIcons noteId = {o.noteId}></TrashIcons>
                     < NoteIconOpration data = {o.noteId}></NoteIconOpration>  */}
-                   </div>   
-                               
-                </Card>
-              
-            ))
-          
-       }
-      <SingleNoteDisplay 
-                    noteData = {this.state.noteData}
-                //    noteId = {o.noteId}
-                //    title = {o.title}
-                    openNote = {this.state.displaySingleNote} 
-                   closeNote = {this.handleCloseNoteDilogbox}>
-                       </SingleNoteDisplay>      
-        </div>
+                        </div>
+                    </Card>
+                ))
+                }
+                <SingleNoteDisplay
+                    noteData={this.state.noteData}
+                    //    noteId = {o.noteId}
+                    //    title = {o.title}
+                    openNote={this.state.displaySingleNote}
+                    closeNote={this.handleCloseNoteDilogbox}>
+                </SingleNoteDisplay>
+            </div>
         );
     }
 }
