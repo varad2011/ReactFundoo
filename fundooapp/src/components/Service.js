@@ -294,3 +294,12 @@ export function displaySearchNote(typeText) {
             }
         });
 }
+
+export function setNoteBackgroudColor( noteModel ) {
+    return axios.post('http://localhost:8080/note/BackgroundColorUpdate', noteModel, { params: { "token": sessionStorage.getItem('token') } }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
+}
