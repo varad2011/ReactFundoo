@@ -50,6 +50,7 @@ removeAddedReminder = (noteId) => {
     removeReminderToNote(noteId).then(Response => {
         alert(Response.data.message)
         console.log(Response.data.message)
+        this.callBackParentData();
     })
         .catch((error) => {
             console.log(this.state.store)
@@ -70,13 +71,16 @@ removeAddedReminder = (noteId) => {
         removeLabelFromNotes(labelId, noteId ).then(Response => {
             alert(Response.data.message)
             console.log(Response.data.message)
+            this.callBackParentData();
         })
             .catch((error) => {
                 console.log(this.state.store)
                 alert(error.response.message)
             }) 
     }
-
+callBackParentData =() =>{
+    this.props.callBackDisplayNotes();
+}
     render() {
         return (
             <div className="displayNote" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}  >
@@ -129,10 +133,13 @@ removeAddedReminder = (noteId) => {
                             </div>
                             {(o.trash === true) ?
                                 <TrashIcons
+                                callBackParentData = {this.callBackParentData}
                                     noteId={o.noteId}
                                 ></TrashIcons>
                                 :
-                                < NoteIconOpration data={o.noteId} archieve={o.archieve}></NoteIconOpration>
+                                < NoteIconOpration data={o.noteId}
+                                callBackParentData = {this.callBackParentData}
+                                 archieve={o.archieve}></NoteIconOpration>
                             }
                             {/* < TrashIcons noteId = {o.noteId}></TrashIcons>
                     < NoteIconOpration data = {o.noteId}></NoteIconOpration>  */}
