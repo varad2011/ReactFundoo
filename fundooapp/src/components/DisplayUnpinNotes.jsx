@@ -31,7 +31,7 @@ class DisplayUnpinNotes extends Component {
     }
     handleCloseNoteDilogbox = () => {
         this.setState({ displaySingleNote: false });
-    };
+    }
 
     displayNoteData = (noteId) => {
         displaySingleNote(noteId).then(Response => {
@@ -76,20 +76,31 @@ removeAddedReminder = (noteId) => {
                 alert(error.response.message)
             }) 
     }
+
     render() {
         return (
             <div className="displayNote" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}  >
                 {/* <ListItem>notes</ListItem> */}
                 {this.props.noteData.map(o => (
-                    <Card style={{ "margin": '5px', "height": 'fit-content' }} >
+                    <Card style={{ "margin": '5px', "height": 'fit-content', "border-radius": '14px' }} >
                         <div className='singleNoteDisplay' style={{ "backgroundColor": o.backgroundColor }} >
                             {(o.trash === false) ?
-                                <div className="pinNotes" 
-                                style={{ 'backgroundImage': 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==)' }}
-                                onClick = {()=>{this.props.pinUnpinNote(o.noteId);}}
-                                >
-                                    {/* <CropPortraitIcon /> */}
-                                </div>
+                           <div>
+                                  { o.pinUnpin  ?
+                                   <div className="pinNotes" 
+                                   style={{ 
+                                       "backgroundImage":'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg==)'}}
+                                   onClick = {()=>{this.props.pinUnpinNote(o.noteId);}}
+                                   >
+                                   </div>
+                                   :
+                                   <div className="pinNotes" 
+                                   style={{ 
+                                       'backgroundImage': 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==)' }}
+                                   onClick = {()=>{this.props.pinUnpinNote(o.noteId);}}
+                                   >
+                                   </div> }
+                           </div>
                                 : null}
                             <div className="displayNoteText" onClick={() => { this.displayNoteData(o.noteId); this.openNoteDilogbox(); }}>
                                 {o.title}
@@ -101,7 +112,7 @@ removeAddedReminder = (noteId) => {
                                 {o.noteReminder === true ?
                                     <MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' }}>
                                         <div  style={{ "padding-top": '4px' }}> <AccessTimeIcon fontSize="small" /> </div>
-                                        <div>  {o.reminderDatTime}</div>
+                                        <div>  {o.reminderDatTime.substring(11, 16)}</div>
                                         <div>
                                             <CancelOutlinedIcon  style={{  "fontSize": '20px' }} onClick = {() =>{this.removeAddedReminder(o.noteId);}} />
                                         </div>
