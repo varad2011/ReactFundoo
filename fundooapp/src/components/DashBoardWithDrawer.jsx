@@ -30,9 +30,14 @@ import LabelOutlinedIcon from '@material-ui/icons/LabelOutlined';
 import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {pinUnpin} from '../components/Service';
+import {getLabelPinNote} from '../components/Service';
+import {getPinReminderNote} from '../components/Service';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
 import ViewAgendaOutlinedIcon from '@material-ui/icons/ViewAgendaOutlined';
+import Link from '@material-ui/core/Link';
+import {displaySearchNote} from '../components/Service';
+import ProfilePicSet from '../components/ProfilePicSet';
 const styles = {
   drawer: {
     'margin-top': '5%',
@@ -40,6 +45,8 @@ const styles = {
     'width': '280px'
   }
 }
+const WAIT_INTERVAL = 1000;
+
 class DashBoardWithDrawer extends Component {
   constructor(props) {
     super(props)
@@ -49,12 +56,78 @@ class DashBoardWithDrawer extends Component {
       store: [],
       label: [],
       pinNotes: [],
-      count:1
+      count:1,
+      searchNotes:'',
+      searchNoteList:[],
+      BeforeSearchPinNotes:[],
+      BeforeSearchUnpinNotes:[],
+      createNoteOpen:true,
+      pinNoteDisplay:true,
+      displayNoteType :''
     }
   }
   componentDidMount() {
     this.getAllNotes()
   }
+
+  componentWillMount() {
+    this.timer = null;
+}
+
+  handlChangeSearch = (event) => {
+    console.log("handlechange methoisd")
+    clearTimeout(this.timer);
+    this.setState({
+        [event.target.name]: event.target.value
+    }, () =>
+        console.log(this.state, '---->name'))
+        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+}
+
+triggerChange = () =>{
+  console.log("hello",this.state.searchNotes)
+  displaySearchNote( this.state.searchNotes).then(Response => {
+    this.setState({
+      searchNoteList: Response.data.data
+    })
+    console.log(Response)
+  })
+    .catch((error) => {
+      console.log(error.response)
+      alert(error.response.data)
+    })
+
+  // getPinNotes().then(Response => {
+  //   this.setState({
+  //     BeforeSearchPinNotes: Response.data.data
+  //   })
+  //   this.state.BeforeSearchPinNotes.map(pinNote =>{
+  //     if (pinNote.title.indexOf(this.state.searchNotes) > 0) {
+  //       this.setState({
+  //         label: pinNote
+  //       })
+  //     }
+  //   })
+  // })
+  // sortList().then(Response => {
+  //   console.log("storeData",this.state.store)
+  //   this.setState({
+  //     BeforeSearchUnpinNotes: Response.data.data
+  //   })
+  //  this.state.BeforeSearchUnpinNotes.map(unpinNote => {
+  //   console.log("beforeunpin",unpinNote.title.indexOf(this.state.searchNotes),unpinNote.title)
+  //   if (unpinNote.title.indexOf(this.state.searchNotes) >= 0) {
+  //     this.setState({
+  //       store: unpinNote
+  //     });
+  //     console.log(this.state.store)
+  //   } if (unpinNote.title.indexOf(this.state.searchNotes) < 0){
+  //    console.log("maatch not found")
+  //   }
+  // });
+  // })
+}
+
   SessionClear = () => {
     sessionStorage.clear();
   }
@@ -85,6 +158,10 @@ class DashBoardWithDrawer extends Component {
       })
   }
   getAllNotes = () => {
+    this.setState({
+      createNoteOpen :true,
+      pinNoteDisplay:true
+    })
     getPinNotes().then(Response => {
       this.setState({
         pinNotes: Response.data.data
@@ -108,9 +185,10 @@ class DashBoardWithDrawer extends Component {
   getArchieveNotes = () => {
     displayArchievedList().then(Response => {
       this.setState({
-        store: Response.data.data
+        store: Response.data.data,
+        createNoteOpen :false,
+        pinNoteDisplay:false
       })
-      alert("note display ")
     })
       .catch((error) => {
         alert(error.response)
@@ -120,11 +198,10 @@ class DashBoardWithDrawer extends Component {
   getTrashNotes = () => {
     displayTrashList().then(Response => {
       this.setState({
-        store: Response.data.data
+        store: Response.data.data,
+        createNoteOpen :false,
+        pinNoteDisplay:false
       })
-      console.log("kfjhb", Response.data.data);
-
-      alert(Response.data.message)
     })
       .catch((error) => {
         console.log(Response)
@@ -135,26 +212,46 @@ class DashBoardWithDrawer extends Component {
   getReminderNotes = () => {
     getAllReminderNote().then(Response => {
       this.setState({
-        store: Response.data.data
+        store: Response.data.data,
+        createNoteOpen :true,
+        pinNoteDisplay:true
       })
-
     })
       .catch((error) => {
         alert(error.response.message)
       })
+      getPinReminderNote().then(Response => {
+        this.setState({
+          pinNotes: Response.data.data
+        })
+        console.log("4");
+      }).catch((error) => {
+          alert(error.response.message)
+        });
+
   }
 
   getlabelNotes = (labelId) => {
     getLabelNote(labelId).then(Response => {
       this.setState({
-        store: Response.data.data
+        store: Response.data.data,
+        createNoteOpen :true,
+        pinNoteDisplay:true
       })
       console.log(Response.data.data)
     })
       .catch((error) => {
         console.log(this.state.store)
-        alert(error.response.message)
+        // alert(error.response.message)
       })
+      getLabelPinNote().then(Response => {
+        this.setState({
+          pinNotes: Response.data.data
+        })      
+      })
+        .catch((error) => {
+          alert(error.response.message)
+        })
   }
 
   notePinUnpin = (noteId) => {
@@ -189,7 +286,9 @@ callbackMethods = (noteId) =>{
             <div className='searchicon'>
               <SearchIcon color="primary" className="searchIcon" />
               <InputBase className="searchBar"
-                placeholder="Search…"
+                placeholder="Search…" name = "searchNotes"
+                onChange={this.handlChangeSearch}
+                onKeyDown={this.triggerChange}
                 //onClick ={this.displayNote}
                 inputProps={{ 'aria-label': 'search' }}
               />
@@ -197,8 +296,12 @@ callbackMethods = (noteId) =>{
             <Badge style = {{ "color": '#e02a2a',"margin-left": '-40px',"margin-right": '27px'}} badgeContent={this.state.count}>
             <NotificationsNoneOutlinedIcon />
             </Badge>
-            <Button color="primary" style={{ "margin-right": '25px' }} onClick={() => { this.SessionClear(); }}>Logout</Button>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Button color="primary" style={{ "margin-right": '25px',"textTransform": 'none' }} onClick={() => { this.SessionClear(); }}>Logout</Button>
+          <ProfilePicSet></ProfilePicSet>
+            {/* <Avatar  type="file" alt="Remy Sharp" src="/static/images/avatar/1.jpg" >
+            {/* <input type="file"  /> */}
+            {/* </Avatar> */}
+            {/* <Button  type = "file">uploadpic</Button> */} */}
           </Toolbar>
         </AppBar>
         <Drawer open={open} variant="persistent" classes={{ paper: classes.drawer }}>
@@ -212,13 +315,14 @@ callbackMethods = (noteId) =>{
               <ListItemText>Reminders</ListItemText>
             </MenuItem>
             {this.state.label.map(o =>
-              <MenuItem onClick={() => this.getlabelNotes()}>
+              <MenuItem onClick={() => {this.getlabelNotes(o.labelId)}}>
                 <ListItemIcon><LabelOutlinedIcon /></ListItemIcon>
-                <ListItemText onClick={() => { this.getlabelNotes(o.labelId) }}>{o.labelName}</ListItemText>
+                <ListItemText 
+                // onClick={() => { this.getlabelNotes(o.labelId) }}
+                >{o.labelName}</ListItemText>
               </MenuItem>
             )}
-
-            <LabelCreate listOfLabel={this.state.label}></LabelCreate>
+            <LabelCreate listOfLabel={this.state.label} callBackLabelList = {this.displayLabel}></LabelCreate>
             <MenuItem onClick={() => this.getArchieveNotes()}>
               <ListItemIcon><ArchiveOutlinedIcon /></ListItemIcon>
               <ListItemText>Archieve</ListItemText>
@@ -231,9 +335,19 @@ callbackMethods = (noteId) =>{
             </div>
           </List>
         </Drawer>
-        <  NoteCreate></NoteCreate>
-        <DisplayPinNotes pinNoteData={this.state.pinNotes}  pinUnpinNote = {this.callbackMethods} ></DisplayPinNotes>
-        <DisplayUnpinNotes noteData={this.state.store} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes>
+        {/* <DisplayUnpinNotes noteData ={this.state.searchNoteList} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes> */}
+        {this.state.createNoteOpen === true ?  < NoteCreate></NoteCreate> : null} 
+        {/* < NoteCreate></NoteCreate> */}
+        {this.state.pinNoteDisplay === true ? 
+       <DisplayUnpinNotes noteData ={this.state.pinNotes} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes>
+        //  <DisplayPinNotes pinNoteData={this.state.pinNotes}  pinUnpinNote = {this.callbackMethods} ></DisplayPinNotes>
+        : null 
+        // <div className="trashBin" >Notes in Trash are deleted after 7 days.<Link className = "trashLink" component="button" >Empty bin</Link>
+        // </div>
+        }
+        {/* <DisplayPinNotes pinNoteData={this.state.pinNotes}  pinUnpinNote = {this.callbackMethods} ></DisplayPinNotes> */}
+       
+        <DisplayUnpinNotes noteData ={this.state.store} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes>
       </div>
     );
   }
