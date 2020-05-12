@@ -8,6 +8,7 @@ class TrashIcons extends Component {
     unTrashNote= (noteId) =>{
         unTrash(noteId).then(Response => {
             console.log(Response.data.message)
+            this.props.callBackParentData();
           })
             .catch((error) => {
               alert(error.response.message)
@@ -16,6 +17,7 @@ class TrashIcons extends Component {
      deleteNotes = (noteId) =>{
         deleteNote(noteId).then(Response => {
             console.log(Response.data.message)
+            this.props.callBackParentData();
           })
             .catch((error) => {
               alert(error.response.message)
