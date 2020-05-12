@@ -64,7 +64,9 @@ class DashBoardWithDrawer extends Component {
       BeforeSearchUnpinNotes: [],
       createNoteOpen: true,
       pinNoteDisplay: true,
-      displayNoteType: ''
+      TrashOpen:false,
+      displayNoteType: '',
+      searchNoteDisplayFlag: false
     }
   }
   componentDidMount() {
@@ -87,7 +89,9 @@ class DashBoardWithDrawer extends Component {
 
   displaySerachNotes = () => {
     this.setState({
-      displayNoteType: "searchNotes"
+      displayNoteType: "searchNotes",
+      TrashOpen:false,
+      searchNoteDisplayFlag:true
     })
     displaySearchNote(this.state.searchNotes).then(Response => {
       this.setState({
@@ -166,7 +170,9 @@ class DashBoardWithDrawer extends Component {
     this.setState({
       createNoteOpen: true,
       pinNoteDisplay: true,
-      displayNoteType: "note"
+      displayNoteType: "note",
+      TrashOpen:false,
+      searchNoteDisplayFlag: false
     })
     getPinNotes().then(Response => {
       this.setState({
@@ -190,7 +196,9 @@ class DashBoardWithDrawer extends Component {
 
   getArchieveNotes = () => {
     this.setState({
-      displayNoteType: "archiveNote"
+      displayNoteType: "archiveNote",
+      TrashOpen:false,
+      searchNoteDisplayFlag: false
     })
     displayArchievedList().then(Response => {
       this.setState({
@@ -206,7 +214,9 @@ class DashBoardWithDrawer extends Component {
 
   getTrashNotes = () => {
     this.setState({
-      displayNoteType: "trashNote"
+      displayNoteType: "trashNote",
+      TrashOpen:true,
+      searchNoteDisplayFlag: false
     })
     displayTrashList().then(Response => {
       this.setState({
@@ -223,7 +233,9 @@ class DashBoardWithDrawer extends Component {
 
   getReminderNotes = () => {
     this.setState({
-      displayNoteType: "reminderNote"
+      displayNoteType: "reminderNote",
+      TrashOpen:false,
+      searchNoteDisplayFlag: false
     })
     getAllReminderNote().then(Response => {
       this.setState({
@@ -249,7 +261,9 @@ class DashBoardWithDrawer extends Component {
   getlabelNotes = (labelId) => {
     this.setState({
       labelIdStore: labelId,
-      displayNoteType:"labelNotes"
+      displayNoteType:"labelNotes",
+      TrashOpen:false,
+      searchNoteDisplayFlag: false
     })
     getLabelNote(labelId).then(Response => {
       this.setState({
@@ -329,7 +343,7 @@ class DashBoardWithDrawer extends Component {
               <InputBase className="searchBar"
                 placeholder="Search…" name="searchNotes"
                 onChange={this.handlChangeSearch}
-                onKeyDown={this.displaySerachNotes}
+                // onKeyDown={this.displaySerachNotes}
                 //onClick ={this.displayNote}
                 inputProps={{ 'aria-label': 'search' }}
               />
@@ -376,25 +390,26 @@ class DashBoardWithDrawer extends Component {
             </div>
           </List>
         </Drawer>
-        {/* <DisplayUnpinNotes noteData ={this.state.searchNoteList} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes> */}
         {this.state.createNoteOpen === true ? < NoteCreate></NoteCreate> : null}
-        {/* < NoteCreate></NoteCreate> */}
+       {this.state.searchNoteDisplayFlag === true ?
+        <DisplayUnpinNotes noteData ={this.state.searchNoteList} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes>
+        :
+        <div>
         {this.state.pinNoteDisplay === true ?
           <DisplayUnpinNotes noteData={this.state.pinNotes} 
           pinUnpinNote={this.callbackMethods}
           callBackDisplayNotes={this.callBackDisplayNotes}
           ></DisplayUnpinNotes>
-          //  <DisplayPinNotes pinNoteData={this.state.pinNotes}  pinUnpinNote = {this.callbackMethods} ></DisplayPinNotes>
           : null
-          // <div className="trashBin" >Notes in Trash are deleted after 7 days.<Link className = "trashLink" component="button" >Empty bin</Link>
-          // </div>
         }
-        {/* <DisplayPinNotes pinNoteData={this.state.pinNotes}  pinUnpinNote = {this.callbackMethods} ></DisplayPinNotes> */}
-
+       {this.state.TrashOpen === true ? 
+        <div className="trashBin" >Notes in Trash are deleted after 7 days.<Link className = "trashLink" component="button" >Empty bin</Link></div>
+       :null}
         <DisplayUnpinNotes noteData={this.state.store}
           pinUnpinNote={this.callbackMethods}
           callBackDisplayNotes={this.callBackDisplayNotes}
         ></DisplayUnpinNotes>
+        </div>}
       </div>
     );
   }
