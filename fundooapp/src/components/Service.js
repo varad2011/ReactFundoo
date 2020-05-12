@@ -77,6 +77,13 @@ export function getAllReminderNote() {
         }
     });
 }
+export function getPinReminderNote() {
+    return axios.get('http://localhost:8080/note/AllPinReminderNote', { params: { "token": sessionStorage.getItem('token') } }, {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
+}
 
 export function displayTrashList() {
     return axios.get('http://localhost:8080/note/getTrashList', { params: { "token": sessionStorage.getItem('token') } }, {
@@ -179,6 +186,21 @@ export function getLabelNote(labelId1) {
         });
 
 }
+
+export function getLabelPinNote(labelId1) {
+    return axios.get('http://localhost:8080/label/getPinNoteByLabelId', {
+        params: {
+            "labelId": labelId1
+            , "token": sessionStorage.getItem('token')
+        }
+    }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
+
+}
 export function deleteNote(noteId) {
     console.log(noteId)
     return axios.post('http://localhost:8080/note/deleteFromTrash', noteId, {
@@ -257,6 +279,15 @@ export function addLabelToNote(noteId, labelId) {
 }
 export function removeLabelFromNotes( labelId, noteId ) {
     return axios.post('http://localhost:8080/label/removeLabelFromNotes', { noteId, labelId }, { params: { "token": sessionStorage.getItem('token'), 'noteId': noteId, 'labelId': labelId } }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
+}
+
+export function displaySearchNote(typeText) {
+    return axios.get('http://localhost:8080/note/noteListBySearchText', { params: { "token": sessionStorage.getItem('token'), 'typeText': typeText } }
         , {
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
