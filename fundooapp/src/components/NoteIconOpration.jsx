@@ -42,6 +42,7 @@ import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import UnarchiveOutlinedIcon from '@material-ui/icons/UnarchiveOutlined';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import {addLabelToNote} from '../components/Service';
+import {setNoteBackgroudColor}  from '../components/Service';
 const ITEM_HEIGHT = 48;
 
 class NoteIconOpration extends Component {
@@ -88,14 +89,14 @@ class NoteIconOpration extends Component {
 
     handleClick = event => {
         this.setState({ anchorEl: event.currentTarget });
-    };
+    }
 
     handleClick1 = () => {
         console.log("heee");
         this.setState({ anchorEl2: true });
         console.log("heee", this.anchorEl);
         this.getListOfLabel();
-    };
+    }
 
     handleClickOpenColor = event => {
         this.setState({ anchorEl3: event.currentTarget });
@@ -104,23 +105,27 @@ class NoteIconOpration extends Component {
 
     handleClose = () => {
         this.setState({ anchorEl: null });
-    };
+    }
 
     handleClose1 = () => {
         this.setState({ anchorEl2: false });
-    };
+    }
+
     handleCloseColor = () => {
         this.setState({ anchorEl3: false });
-    };
+    }
+
     closeReminderPicker = () => {
         this.setState({
             anchorEl4: false
         })
-    };
+    }
+
     addNoteToTrash = (id) => {
         noteAddTotrash(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
+            this.props.callBackParentData();
         }).catch((error) => {
 
             console.log(error.response)
@@ -132,6 +137,7 @@ class NoteIconOpration extends Component {
         addToarchiveList(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
+            this.props.callBackParentData();
         }).catch((error) => {
 
             console.log("erroe", error.response.message)
@@ -142,6 +148,7 @@ class NoteIconOpration extends Component {
         removeFromArchiveList(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
+            this.props.callBackParentData();
         }).catch((error) => {
 
             console.log("erroe", error.response.message)
@@ -163,6 +170,7 @@ class NoteIconOpration extends Component {
                 console.log(error.response.data.data)
             })
     }
+    
     collaboratorListOpen = () => {
         displaySingleNote(this.props.data).then(Response => {
             this.setState({
@@ -192,7 +200,14 @@ class NoteIconOpration extends Component {
         note.noteId = this.props.data;
         note.backgroundColor = colorChnage;
         console.log("notebackground ", note)
-        this.props.backgroundColorChnage(note)
+        setNoteBackgroudColor(note).then(Response => {
+            console.log("reminder", Response.data.data)
+            this.props.callBackParentData();
+        })
+            .catch((error) => {
+                alert(error.response.data.message)
+                console.log(error.response.data.data)
+            })
     }
     addColaborateEmailId = () => {
         addEmailToNote(this.props.data, this.state.colaborateEmailId).then(Response => {
@@ -203,6 +218,7 @@ class NoteIconOpration extends Component {
             alert(error.response.data)
         })
     }
+
     setReminder = (id) => {
         // this.setState ({
         //     setTime : this.state.date.concat(' '+this.state.time)
@@ -210,6 +226,7 @@ class NoteIconOpration extends Component {
         console.log(this.state.setTime);
         addReminderToNote(id, this.state.date.concat(' ' + this.state.time)).then(Response => {
             console.log("reminder", Response.data.data)
+            this.props.callBackParentData();
         })
             .catch((error) => {
                 alert(error.response.data.message)
@@ -220,6 +237,7 @@ class NoteIconOpration extends Component {
         addLabelToNote(  this.props.data, labelId ).then(Response => {
             console.log(Response)
             alert(Response.data.message)
+            this.props.callBackParentData();
         }).catch((error) => {
             console.log(error.response)
             alert(error.response.data)
@@ -373,13 +391,13 @@ class NoteIconOpration extends Component {
                                 <div className="colorIcon" style={{ "backgroundColor": 'orange' }} onClick={() => { this.changeBackGroudColor("#fbbc04"); this.handleCloseColor(); }}></div>
                                 <div className="colorIcon" style={{ "backgroundColor": 'yellow' }} onClick={() => { this.changeBackGroudColor("#fff475"); this.handleCloseColor(); }}></div>
                                 <div className="colorIcon" style={{ "backgroundColor": 'green' }} onClick={() => { this.changeBackGroudColor("#ccff90"); this.handleCloseColor(); }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'teal' }} onClick={() => { this.changeBackGroudColor("#a7ffeb") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'blue' }} onClick={() => { this.changeBackGroudColor("#cbf0f8") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'darkBlue' }} onClick={() => { this.changeBackGroudColor("red") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'purple' }} onClick={() => { this.changeBackGroudColor("red") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'pink' }} onClick={() => { this.changeBackGroudColor("red") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'brown' }} onClick={() => { this.changeBackGroudColor("red") }}></div>
-                                <div className="colorIcon" style={{ "backgroundColor": 'gray' }} onClick={() => { this.changeBackGroudColor("red") }} ></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'teal' }} onClick={() => { this.changeBackGroudColor("#a7ffeb") ; this.handleCloseColor(); }}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'blue' }} onClick={() => { this.changeBackGroudColor("#cbf0f8") ; this.handleCloseColor();}}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'darkBlue' }} onClick={() => { this.changeBackGroudColor("red") ; this.handleCloseColor(); }}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'purple' }} onClick={() => { this.changeBackGroudColor("red") ; this.handleCloseColor();}}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'pink' }} onClick={() => { this.changeBackGroudColor("red"); this.handleCloseColor();}}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'brown' }} onClick={() => { this.changeBackGroudColor("red") ; this.handleCloseColor();}}></div>
+                                <div className="colorIcon" style={{ "backgroundColor": 'gray' }} onClick={() => { this.changeBackGroudColor("red") ; this.handleCloseColor();}} ></div>
                             </div>
                         </Menu>
                     </div>
@@ -434,25 +452,52 @@ class NoteIconOpration extends Component {
                                             {this.state.labelStore.map(o => (
 
                                                 <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', "padding-left": '8%' }} >
-                                                    {/* {o.noteModel.map(note => (
+                                                    {o.noteModel.map(note => (
                                                         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', "padding-left": '8%' }}>
 
                                                             {this.props.data === note.noteId ?
+                                                            <div>
                                                                 <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
+                                                                <MenuItem style={{ "margin-top": '-6px' }}>{o.labelName}
+
+                                                                </MenuItem>
+                                                                </div>
                                                                 :
-                                                                <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
+                                                                null
+                                                    //            <div>
+                                                    //                <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
+                                                    // <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
+                                                    // </MenuItem>
+                                                    //                </div>
                                                             }
 
-                                                            <MenuItem style={{ "margin-top": '-6px' }}>{o.labelName}
-
-                                                            </MenuItem>
-
+                                                            {/* {o.noteModel === 0  ?
+                                                             <div>
+                                                                             <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
+                                                              <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
+                                                              </MenuItem>
+                                                                            </div>
+                                                             :
+                                                             null
+                                                            } */}
                                                         </div>
 
-                                                    ))} */}
+                                                    ))}
+                                                    
+                                                     {o.noteModel.length === 0  ?
+                                                             <div>
+                                                                             <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
+                                                              <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
+                                                              </MenuItem>
+                                                                            </div>
+                                                             :
+                                                             null
+                                                            }
+                                                    
+{/*                                                     
                                                     <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
                                                     <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
-                                                    </MenuItem>
+                                                    </MenuItem> */}
                                                 </div>
                                             ))}
                                         </MenuList>
