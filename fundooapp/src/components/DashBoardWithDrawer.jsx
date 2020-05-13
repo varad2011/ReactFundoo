@@ -39,6 +39,8 @@ import Link from '@material-ui/core/Link';
 import { displaySearchNote } from '../components/Service';
 import ProfilePicSet from '../components/ProfilePicSet';
 import Login from '../components/Login';
+import {reminderCompleteNoteCount} from '../components/Service';
+import {GetReminderCompleteNoteList} from '../components/Service';
 
 const styles = {
   drawer: {
@@ -59,7 +61,7 @@ class DashBoardWithDrawer extends Component {
       label: [],
       labelIdStore: '',
       pinNotes: [],
-      count: 1,
+      count: 0,
       searchNotes: '',
       searchNoteList: [],
       BeforeSearchPinNotes: [],
@@ -72,7 +74,8 @@ class DashBoardWithDrawer extends Component {
     }
   }
   componentDidMount() {
-    this.getAllNotes()
+    this.getAllNotes();
+    setInterval(this.checkreminderNoteSetTime, 100000);
   }
 
   componentWillMount() {
@@ -233,8 +236,7 @@ class DashBoardWithDrawer extends Component {
         createNoteOpen: true,
         pinNoteDisplay: true
       })
-    })
-      .catch((error) => {
+    }).catch((error) => {
         // alert(error.response.message)
       })
     getLabelPinNote(labelId).then(Response => {
@@ -262,6 +264,31 @@ class DashBoardWithDrawer extends Component {
     // this.getAllNotes();
   }
 
+  checkreminderNoteSetTime = () =>{
+    reminderCompleteNoteCount().then(Response => {
+      this.setState({
+        count : Response.data.data
+      })
+    }) .catch((error) => {
+      alert(error.response.message)
+    })
+  }
+
+getReminderCompleteNote = () =>{
+  this.setState({
+    displayNoteType: "reminderCompleteNote",
+    TrashOpen: false,
+    searchNoteDisplayFlag: true
+  })
+  GetReminderCompleteNoteList().then(Response => {
+    this.setState({
+      searchNoteList: Response.data.data
+    })
+  }) .catch((error) => {
+    alert(error.response.message)
+  })
+}
+
   callBackDisplayNotes = () => {
     if (this.state.displayNoteType === "note") {
       this.getAllNotes();
@@ -280,6 +307,9 @@ class DashBoardWithDrawer extends Component {
     }
     if (this.state.displayNoteType === "searchNotes") {
       this.displaySerachNotes();
+    }
+    if (this.state.displayNoteType === "reminderCompleteNote") {
+      this.getReminderCompleteNote();
     }
   }
   render() {
@@ -302,7 +332,9 @@ class DashBoardWithDrawer extends Component {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
-            <Badge style={{ "color": '#e02a2a', "margin-left": '-40px', "margin-right": '27px' }} badgeContent={this.state.count}>
+            <Badge style={{ "color": '#e02a2a', "margin-left": '-40px', "margin-right": '27px' }} 
+            badgeContent={this.state.count}
+            onClick = {this.getReminderCompleteNote}>
               <NotificationsNoneOutlinedIcon />
             </Badge>
             <Button color="primary" style={{ "margin-right": '25px', "textTransform": 'none' }} onClick={() => { this.SessionClear(); }}>Logout</Button>
