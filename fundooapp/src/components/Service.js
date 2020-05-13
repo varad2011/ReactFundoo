@@ -123,7 +123,8 @@ export function noteAddTotrash(int1) {
         });
 }
 export function addToarchiveList(int1) {
-    return axios.post('http://localhost:8080/note/addToArchieve', int1, { params: { "token": sessionStorage.getItem('token'), 'noteId': int1 } }
+    return axios.post('http://localhost:8080/note/addToArchieve', int1, 
+    { params: { "token": sessionStorage.getItem('token'), 'noteId': int1 } }
         , {
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -319,4 +320,22 @@ export function updateLoginUserProfilePic(){
             "Content-Type": "application/json;charset=utf-8"
         }
     });
+}
+
+export function reminderCompleteNoteCount() {
+    return axios.get('http://localhost:8080/note/reminderCompleteNoteCount', { params: { "token": sessionStorage.getItem('token') } }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
+}
+
+export function GetReminderCompleteNoteList() {
+    return axios.get('http://localhost:8080/note/getReminderCompleteNote', { params: { "token": sessionStorage.getItem('token') } }
+        , {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
 }
