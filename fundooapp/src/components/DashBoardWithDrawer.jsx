@@ -38,6 +38,8 @@ import ViewAgendaOutlinedIcon from '@material-ui/icons/ViewAgendaOutlined';
 import Link from '@material-ui/core/Link';
 import { displaySearchNote } from '../components/Service';
 import ProfilePicSet from '../components/ProfilePicSet';
+import Login from '../components/Login';
+
 const styles = {
   drawer: {
     'margin-top': '5%',
@@ -55,7 +57,7 @@ class DashBoardWithDrawer extends Component {
       open: false,
       store: [],
       label: [],
-      labelIdStore:'',
+      labelIdStore: '',
       pinNotes: [],
       count: 1,
       searchNotes: '',
@@ -64,7 +66,7 @@ class DashBoardWithDrawer extends Component {
       BeforeSearchUnpinNotes: [],
       createNoteOpen: true,
       pinNoteDisplay: true,
-      TrashOpen:false,
+      TrashOpen: false,
       displayNoteType: '',
       searchNoteDisplayFlag: false
     }
@@ -78,7 +80,6 @@ class DashBoardWithDrawer extends Component {
   }
 
   handlChangeSearch = (event) => {
-    console.log("handlechange methoisd")
     clearTimeout(this.timer);
     this.setState({
       [event.target.name]: event.target.value
@@ -90,53 +91,22 @@ class DashBoardWithDrawer extends Component {
   displaySerachNotes = () => {
     this.setState({
       displayNoteType: "searchNotes",
-      TrashOpen:false,
-      searchNoteDisplayFlag:true
+      TrashOpen: false,
+      searchNoteDisplayFlag: true
     })
     displaySearchNote(this.state.searchNotes).then(Response => {
       this.setState({
         searchNoteList: Response.data.data
       })
-      console.log(Response)
     })
       .catch((error) => {
-        console.log(error.response)
         alert(error.response.data)
       })
-
-    // getPinNotes().then(Response => {
-    //   this.setState({
-    //     BeforeSearchPinNotes: Response.data.data
-    //   })
-    //   this.state.BeforeSearchPinNotes.map(pinNote =>{
-    //     if (pinNote.title.indexOf(this.state.searchNotes) > 0) {
-    //       this.setState({
-    //         label: pinNote
-    //       })
-    //     }
-    //   })
-    // })
-    // sortList().then(Response => {
-    //   console.log("storeData",this.state.store)
-    //   this.setState({
-    //     BeforeSearchUnpinNotes: Response.data.data
-    //   })
-    //  this.state.BeforeSearchUnpinNotes.map(unpinNote => {
-    //   console.log("beforeunpin",unpinNote.title.indexOf(this.state.searchNotes),unpinNote.title)
-    //   if (unpinNote.title.indexOf(this.state.searchNotes) >= 0) {
-    //     this.setState({
-    //       store: unpinNote
-    //     });
-    //     console.log(this.state.store)
-    //   } if (unpinNote.title.indexOf(this.state.searchNotes) < 0){
-    //    console.log("maatch not found")
-    //   }
-    // });
-    // })
   }
 
   SessionClear = () => {
     sessionStorage.clear();
+    this.props.history.push("/Login")
   }
 
   openDrawer = () => {
@@ -144,12 +114,10 @@ class DashBoardWithDrawer extends Component {
       this.setState({
         open: false
       })
-      console.log(this.state.open)
     } if (this.state.open === false) {
       this.setState({
         open: true
       })
-      console.log(this.state.open)
     }
   }
 
@@ -158,27 +126,24 @@ class DashBoardWithDrawer extends Component {
       this.setState({
         label: Response.data.data
       })
-      console.log(Response)
     })
       .catch((error) => {
-        console.log(error.response)
         alert(error.response.data)
       })
   }
-  
+
   getAllNotes = () => {
     this.setState({
       createNoteOpen: true,
       pinNoteDisplay: true,
       displayNoteType: "note",
-      TrashOpen:false,
+      TrashOpen: false,
       searchNoteDisplayFlag: false
     })
     getPinNotes().then(Response => {
       this.setState({
         pinNotes: Response.data.data
       })
-      console.log("4");
     })
       .catch((error) => {
         alert(error.response.message)
@@ -187,7 +152,6 @@ class DashBoardWithDrawer extends Component {
       this.setState({
         store: Response.data.data
       })
-      console.log("5");
     })
       .catch((error) => {
         alert(error.response.message)
@@ -197,7 +161,7 @@ class DashBoardWithDrawer extends Component {
   getArchieveNotes = () => {
     this.setState({
       displayNoteType: "archiveNote",
-      TrashOpen:false,
+      TrashOpen: false,
       searchNoteDisplayFlag: false
     })
     displayArchievedList().then(Response => {
@@ -215,7 +179,7 @@ class DashBoardWithDrawer extends Component {
   getTrashNotes = () => {
     this.setState({
       displayNoteType: "trashNote",
-      TrashOpen:true,
+      TrashOpen: true,
       searchNoteDisplayFlag: false
     })
     displayTrashList().then(Response => {
@@ -226,7 +190,6 @@ class DashBoardWithDrawer extends Component {
       })
     })
       .catch((error) => {
-        console.log(Response)
         alert(error.response)
       })
   }
@@ -234,7 +197,7 @@ class DashBoardWithDrawer extends Component {
   getReminderNotes = () => {
     this.setState({
       displayNoteType: "reminderNote",
-      TrashOpen:false,
+      TrashOpen: false,
       searchNoteDisplayFlag: false
     })
     getAllReminderNote().then(Response => {
@@ -251,7 +214,6 @@ class DashBoardWithDrawer extends Component {
       this.setState({
         pinNotes: Response.data.data
       })
-      console.log("4");
     }).catch((error) => {
       alert(error.response.message)
     });
@@ -261,8 +223,8 @@ class DashBoardWithDrawer extends Component {
   getlabelNotes = (labelId) => {
     this.setState({
       labelIdStore: labelId,
-      displayNoteType:"labelNotes",
-      TrashOpen:false,
+      displayNoteType: "labelNotes",
+      TrashOpen: false,
       searchNoteDisplayFlag: false
     })
     getLabelNote(labelId).then(Response => {
@@ -271,10 +233,8 @@ class DashBoardWithDrawer extends Component {
         createNoteOpen: true,
         pinNoteDisplay: true
       })
-      console.log(Response.data.data)
     })
       .catch((error) => {
-        console.log(this.state.store)
         // alert(error.response.message)
       })
     getLabelPinNote(labelId).then(Response => {
@@ -289,21 +249,16 @@ class DashBoardWithDrawer extends Component {
 
   notePinUnpin = (noteId) => {
     pinUnpin(noteId).then(Response => {
-      console.log(Response.data.message)
-      console.log("2");
       this.callBackDisplayNotes(this.state.displayNoteType)
       // this.getAllNotes();
     })
       .catch((error) => {
-        console.log(this.state.store)
         alert(error.response.message)
       })
   }
 
   callbackMethods = (noteId) => {
-    console.log("1");
     this.notePinUnpin(noteId);
-    // console.log("3");
     // this.getAllNotes();
   }
 
@@ -334,8 +289,7 @@ class DashBoardWithDrawer extends Component {
       <div>
         <AppBar position="static" style={{ 'backgroundColor': "white" }}>
           <Toolbar >
-            <IconButton style={{ "margin-left": '10px' }} edge="start" aria-label="menu" onClick={() => { this.openDrawer(); this.displayLabel(); }}
-            >
+            <IconButton style={{ "margin-left": '10px' }} edge="start" aria-label="menu" onClick={() => { this.openDrawer(); this.displayLabel(); }}>
               <MenuIcon />
             </IconButton>
             <div className='searchicon'>
@@ -353,10 +307,6 @@ class DashBoardWithDrawer extends Component {
             </Badge>
             <Button color="primary" style={{ "margin-right": '25px', "textTransform": 'none' }} onClick={() => { this.SessionClear(); }}>Logout</Button>
             <ProfilePicSet></ProfilePicSet>
-            {/* <Avatar  type="file" alt="Remy Sharp" src="/static/images/avatar/1.jpg" >
-            {/* <input type="file"  /> */}
-            {/* </Avatar> */}
-            {/* <Button  type = "file">uploadpic</Button> */} */}
           </Toolbar>
         </AppBar>
         <Drawer open={open} variant="persistent" classes={{ paper: classes.drawer }}>
@@ -391,25 +341,21 @@ class DashBoardWithDrawer extends Component {
           </List>
         </Drawer>
         {this.state.createNoteOpen === true ? < NoteCreate></NoteCreate> : null}
-       {this.state.searchNoteDisplayFlag === true ?
-        <DisplayUnpinNotes noteData ={this.state.searchNoteList} pinUnpinNote = {this.callbackMethods}></DisplayUnpinNotes>
-        :
-        <div>
-        {this.state.pinNoteDisplay === true ?
-          <DisplayUnpinNotes noteData={this.state.pinNotes} 
-          pinUnpinNote={this.callbackMethods}
-          callBackDisplayNotes={this.callBackDisplayNotes}
-          ></DisplayUnpinNotes>
-          : null
-        }
-       {this.state.TrashOpen === true ? 
-        <div className="trashBin" >Notes in Trash are deleted after 7 days.<Link className = "trashLink" component="button" >Empty bin</Link></div>
-       :null}
-        <DisplayUnpinNotes noteData={this.state.store}
-          pinUnpinNote={this.callbackMethods}
-          callBackDisplayNotes={this.callBackDisplayNotes}
-        ></DisplayUnpinNotes>
-        </div>}
+        {this.state.searchNoteDisplayFlag === true ?
+          <DisplayUnpinNotes noteData={this.state.searchNoteList} pinUnpinNote={this.callbackMethods}></DisplayUnpinNotes>
+          : <div>
+            {this.state.pinNoteDisplay === true ?
+              <DisplayUnpinNotes noteData={this.state.pinNotes}
+                pinUnpinNote={this.callbackMethods}
+                callBackDisplayNotes={this.callBackDisplayNotes}></DisplayUnpinNotes>
+              : null}
+            {this.state.TrashOpen === true ?
+              <div className="trashBin" >Notes in Trash are deleted after 7 days.<Link className="trashLink" component="button" >Empty bin</Link></div>
+              : null}
+            <DisplayUnpinNotes noteData={this.state.store}
+              pinUnpinNote={this.callbackMethods}
+              callBackDisplayNotes={this.callBackDisplayNotes}></DisplayUnpinNotes>
+          </div>}
       </div>
     );
   }
