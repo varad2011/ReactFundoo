@@ -125,7 +125,7 @@ class NoteIconOpration extends Component {
         noteAddTotrash(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
-            this.props.callBackParentData();
+            this.callBackData();
         }).catch((error) => {
 
             console.log(error.response)
@@ -137,7 +137,7 @@ class NoteIconOpration extends Component {
         addToarchiveList(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
-            this.props.callBackParentData();
+            this.callBackData();
         }).catch((error) => {
 
             console.log("erroe", error.response.message)
@@ -148,7 +148,7 @@ class NoteIconOpration extends Component {
         removeFromArchiveList(id).then(Response => {
             console.log(Response)
             alert(Response.data.message)
-            this.props.callBackParentData();
+            this.callBackData();
         }).catch((error) => {
 
             console.log("erroe", error.response.message)
@@ -195,6 +195,7 @@ class NoteIconOpration extends Component {
     openReminder = () => {
         this.setState({ anchorEl4: true })
     }
+
     changeBackGroudColor = (colorChnage) => {
         let note = {};
         note.noteId = this.props.data;
@@ -202,17 +203,19 @@ class NoteIconOpration extends Component {
         console.log("notebackground ", note)
         setNoteBackgroudColor(note).then(Response => {
             console.log("reminder", Response.data.data)
-            this.props.callBackParentData();
+            this.callBackData();
         })
             .catch((error) => {
                 alert(error.response.data.message)
                 console.log(error.response.data.data)
             })
     }
+
     addColaborateEmailId = () => {
         addEmailToNote(this.props.data, this.state.colaborateEmailId).then(Response => {
             console.log(Response)
             alert(Response.data.message)
+            this.callBackData();
         }).catch((error) => {
             console.log(error.response)
             alert(error.response.data)
@@ -226,7 +229,7 @@ class NoteIconOpration extends Component {
         console.log(this.state.setTime);
         addReminderToNote(id, this.state.date.concat(' ' + this.state.time)).then(Response => {
             console.log("reminder", Response.data.data)
-            this.props.callBackParentData();
+            this.callBackData();
         })
             .catch((error) => {
                 alert(error.response.data.message)
@@ -237,12 +240,21 @@ class NoteIconOpration extends Component {
         addLabelToNote(  this.props.data, labelId ).then(Response => {
             console.log(Response)
             alert(Response.data.message)
-            this.props.callBackParentData();
+            this.callBackData();
         }).catch((error) => {
             console.log(error.response)
             alert(error.response.data)
         })
     }
+    callBackData = () =>{
+        // if(this.props.displaySingleNote === true){
+            // this.props.callBackDisplayNoteData();
+        // }else{
+            this.props.callBackParentData();
+        // }
+            
+    }
+    
     render() {
         const { anchorEl, anchorEl2, anchorEl3, anchorEl4, open, collaboratorOpen } = this.state;
         const { data } = this.props;
