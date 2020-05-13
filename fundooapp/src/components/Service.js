@@ -303,3 +303,20 @@ export function setNoteBackgroudColor( noteModel ) {
             }
         });
 }
+export function setprofilePic(file){
+    return axios.post('http://localhost:8080/note/setProfilePic', file, { params: { "token": sessionStorage.getItem('token') } }
+    , {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
+}
+
+export function updateLoginUserProfilePic(){
+    return axios.get('http://localhost:8080/registration/updateUserProfilePic', { params: { "token": sessionStorage.getItem('token') } }
+    , {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
+}
