@@ -11,7 +11,8 @@ class SingleNoteDisplay extends Component {
         super(props);
         this.state = {
             open: false,
-            noteData: []
+            noteData: [],
+            displaySingleNote :this.props.openNote
         };
     }
     openDilogbox = () => {
@@ -22,9 +23,14 @@ class SingleNoteDisplay extends Component {
     handleClose = () => {
         // this.setState({ open: false });
         this.props.closeNote();
+        this.setState ({
+            displaySingleNote:false
+        })
     };
+    
     displayNoteData = () => {
-        displaySingleNote(this.props.noteId).then(Response => {
+        console.log("display",this.props.noteData.noteId)
+        displaySingleNote(this.props.noteData.noteId).then(Response => {
             this.setState({
                 noteData: Response.data.data
             })
@@ -35,12 +41,15 @@ class SingleNoteDisplay extends Component {
                 alert(error.response.message)
             })
     }
+callBackData = ()=>{
+    this.props.callBackSingleNote(this.props.noteData.noteId);
+}
     render() {
-        console.log("qqq", this.props.noteData);
+        console.log("qqq", this.props.openNote);
         const { noteData } = this.props;
         return (
             <div>
-                <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.openNote}>
+                <Dialog onClose={this.handleClose}  aria-labelledby="simple-dialog-title" open={this.props.openNote}>
                     {/* <DialogTitle>noteDisplay</DialogTitle> */}
                     <div className="displaySingleNotes" style={{ "backgroundColor": noteData.backgroundColor }}>
                         <div>
@@ -56,7 +65,11 @@ class SingleNoteDisplay extends Component {
                         <div>
                             <TextField placeholder={noteData.content} name="content" onChange={this.handlChange} style={{ "margin-top": '10px' }}
                             ></TextField>
-                            <NoteIconOpration  data = {noteData.noteId} archieve = {noteData.archieve}/>
+                            <NoteIconOpration 
+
+                            callBackDisplayNoteData = {this.callBackData}
+                            displaySingleNote = {this.props.openNote}
+                            data = {noteData.noteId} archieve = {noteData.archieve}/>
                         </div>
                         <div className="createNoteButton">
                             <Button onClick={this.saveEditNotes}>saveNote</Button>
