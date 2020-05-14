@@ -56,6 +56,7 @@ class LabelCreate extends Component {
         labelModel.labelName = this.state.labelName;
         newLabelCreate(labelModel).then(Response => {
             alert(Response.data.message)
+            this.props.callBackLabelList();
             console.log(Response.data)
         })
             .catch((error) => {
@@ -69,6 +70,7 @@ class LabelCreate extends Component {
         labelModel.labelId = labelId;
         labelUpdate(labelModel).then(Response => {
             alert(Response.data.message)
+            this.props.callBackLabelList();
             console.log(Response.data)
         })
             .catch((error) => {
@@ -81,6 +83,7 @@ class LabelCreate extends Component {
         labelModel.labelId = labelId;
         deleteLabel(labelModel).then(Response => {
             alert(Response.data.message)
+            this.props.callBackLabelList();
             console.log(Response.data)
         })
             .catch((error) => {
