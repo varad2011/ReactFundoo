@@ -94,7 +94,6 @@ class MoreIcon extends Component {
             console.log(this.state.store)
             alert(error.response.message)
         })
-
     }
 
     displayLabelUnAddedToNote = () => {
@@ -118,6 +117,7 @@ class MoreIcon extends Component {
         this.displayLabelAddedToNote();
         this.props.callBackData();
     }
+
     render() {
         const { anchorEl, anchorEl2 } = this.state;
         return (
@@ -151,18 +151,15 @@ class MoreIcon extends Component {
                                 anchorEl={anchorEl2}
                                 open={Boolean(anchorEl2)}
                                 role={undefined} transition disablePortal
-                                onClose={this.handleClose1}
-                            >
+                                onClose={this.handleClose1} >
                                 <Paper style={{ "paddingLeft": '20px' }}>
                                     <MenuList id="menu-list-grow"
-                                        autoFocusItem={Boolean(anchorEl2)}
-                                    >
+                                        autoFocusItem={Boolean(anchorEl2)} >
                                         <MenuItem onClick={this.handleClose1} >Label Notes</MenuItem>
                                         {this.state.addedLabelToNote.map(addLabel => (
                                             <div className="menuLabelDisplay" onClick={() => { this.removeLabel(addLabel.labelId); }}>
                                                 <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
                                                 <MenuItem style={{ "margin-top": '-6px' }}  >{addLabel.labelName}
-
                                                 </MenuItem>
                                             </div>
                                         ))}
@@ -170,62 +167,9 @@ class MoreIcon extends Component {
                                             <div className="menuLabelDisplay" onClick={() => { this.addLabelToNotes(addLabel.labelId); }}>
                                                 <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
                                                 <MenuItem style={{ "margin-top": '-6px' }} >{addLabel.labelName}
-
                                                 </MenuItem>
                                             </div>
                                         ))}
-
-                                        {/* {this.state.addedLabelToNote.map(o => (
-
-                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', "padding-left": '8%' }} >
-                                            {o.noteModel.map(note => (
-                                                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', "padding-left": '8%' }}>
-
-                                                    {this.props.data === note.noteId ?
-                                                    <div>
-                                                        <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
-                                                        <MenuItem style={{ "margin-top": '-6px' }}>{o.labelName}
-
-                                                        </MenuItem>
-                                                        </div>
-                                                        :
-                                                        null
-                                            //            <div>
-                                            //                <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
-                                            // <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
-                                            // </MenuItem>
-                                            //                </div>
-                                                    }
-
-                                                    {/* {o.noteModel === 0  ?
-                                                     <div>
-                                                                     <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
-                                                      <MenuItem style={{ "margin-top": '-6px' }}>{o.labelName}
-                                                      </MenuItem>
-                                                                    </div>
-                                                     :
-                                                     null
-                                                    } */}
-                                        {/* </div>
-
-                                            ))}
-                                            
-                                             {o.noteModel.length === 0  ?
-                                                     <div>
-                                                                     <CheckBoxOutlineBlankOutlinedIcon style={{ "padding-right": '5px' }} />
-                                                      <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
-                                                      </MenuItem>
-                                                                    </div>
-                                                     :
-                                                     null
-                                                    }
-                                             */}
-                                        {/*                                                     
-                                            <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
-                                            <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
-                                            </MenuItem> */}
-                                        {/* </div> */}
-                                        {/* ))} */}
                                     </MenuList>
                                 </Paper>
                             </Popper>
