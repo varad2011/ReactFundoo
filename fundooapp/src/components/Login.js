@@ -2,6 +2,7 @@ import React from 'react'
 import { TextField } from '@material-ui/core';
 import { loginUser } from '../components/Service'
 import { Container } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import './CssStyles.css'
 //import Clickfunction from './components/clickfunction'
 class Login extends React.Component {
@@ -21,8 +22,8 @@ class Login extends React.Component {
             [event.target.name]: event.target.value
         }, () =>
             console.log(this.state, '---->name'))
-
     }
+
     loginCheck = (event) => {
         console.log("coun")
         event.preventDefault();
@@ -30,24 +31,19 @@ class Login extends React.Component {
             let user = {};
             user.emailId = this.state.emailId
             user.password = this.state.password
-
             loginUser(user)
                 .then(Response => {
                     if (Response.data.message === "password Wrong") {
                         this.setState({
                             count1: this.state.count1 + 1
-
                         });
                         alert(Response.data.message)
-
                     } else {
                         this.setState.count1 = 0;
                         sessionStorage.setItem("token", Response.data.data)
                         alert(Response.data.message)
-                        this.props.history.push("/dashboard")
-
+                        this.props.history.push("/DashBoardWithDrawer")
                     }
-
                 })
                 .catch((error) => {
                     console.log(error.response.data.message)
@@ -57,49 +53,44 @@ class Login extends React.Component {
             alert("due to 3 wrong password attempt password is reset ")
             this.props.history.push("/forgetPassword")
         }
-
-
     }
+
     render() {
         return (
             <div className="header" >
-
                 <Container >
                     <div>
                         <h1 className = "headerName">Login Page </h1>
                     </div>
                     <div className="userids" >
                         <text className = "loginEmailIdText">EmailId</text>
-                       <div><TextField placeholder="EmailId" name="emailId" value={this.state.emailId}
+                       <div><TextField placeholder="Enter emailId" name="emailId" value={this.state.emailId}
                             onChange={this.handlChange}></TextField></div> 
                     </div>
                     <div className="password" >
                     <text className = "loginEmailIdPassword">Password</text>
                     <div>
-                    <TextField placeholder="Passsword" name="password" value={this.state.password}
+                    <TextField placeholder="Enter passsword" name="password" value={this.state.password}
                             onChange={this.handlChange}></TextField>
                     </div>
-                       
                     </div>
                     <div className = "loginButton">
                     <div className = "registrationClickButton" >
-                        <button onClick={() => this.props.history.push("/registration")}>Registartion</button>
+                        <Button
+                        style = {{"textTransform": 'none'}}
+                        color ="default"
+                        onClick={() => this.props.history.push("/registration")}>Registartion</Button>
                     </div>
-
                     <div className = "loginClickButton">
-                        <button
+                        <Button 
+                            style = {{"textTransform": 'none'}}
+                        color ="default"
                             onClick={this.loginCheck}>
                             Login
-                        </button>
-
+                        </Button>
                     </div>
-                   
                     </div>
-                    
                 </Container>
-
-
-
             </div>
         );
     }
