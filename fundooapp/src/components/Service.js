@@ -107,6 +107,7 @@ export function getLabels() {
         }
     });
 }
+
 export function getPinNotes() {
     return axios.get('http://localhost:8080/note/getPinNotes', { params: { "token": sessionStorage.getItem('token') } }, {
         headers: {
@@ -338,4 +339,20 @@ export function GetReminderCompleteNoteList() {
                 "Content-Type": "application/json;charset=utf-8"
             }
         });
+}
+
+export function getLabelsAddedToOpenNote(noteId) {
+    return axios.get('http://localhost:8080/label/labelDisplayAddedToNote', { params: { "token": sessionStorage.getItem('token'), 'noteId': noteId } }, {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
+}
+
+export function getLabelsUnAddedToOpenNote(noteId) {
+    return axios.get('http://localhost:8080/label/labelDisplayUnAddedToNote', { params: { "token": sessionStorage.getItem('token'), 'noteId': noteId } }, {
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    });
 }
