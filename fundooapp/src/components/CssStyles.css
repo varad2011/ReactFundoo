@@ -4,7 +4,6 @@
     width: 35%; */
     padding-left: 35%;
     margin-top: 10%;
-
 }
 .loginEmailIdText{
     float: left;
@@ -54,18 +53,40 @@
    
 }
 .registration{
-    color :navy;
-    width: 200px;
-    padding: 40px;
-    margin-left: 800px;
-     min-height: 200px;
-    background-color: lightblue;
-  
-    border-bottom-right-radius: 60px;
+    margin-left: 40%;
+    margin-top: 5%;
+    margin-right: 30%;
+    padding: 10px;
+    /* min-height: 200px; */
+    /* background-color: lightblue; */
+    border-radius: 5%;
+    border: 2px solid rgba(42, 32, 191, 0.25);
+    
 }
+.registrationHeader {
+    margin-left: 23%;
+    padding-top: 10px;
+    padding-left: 11px;
+    height: 34px;
+    margin-right: 28%;
+    border-radius: 16%;
+    border: 1px solid rgba(38, 197, 168, 0.92);
+}
+
 .registrationCotent{
-    background-color: tomato;
-    width: 200px;
+    padding: 3%;
+    border-radius: 2%;
+    border: 1px solid rgba(38, 197, 109, 0.5);
+    /* background-color: tomato; */
+    /* width: 200px; */
+    display: flex;
+    flex-direction: row;
+}
+.registrationFieldName{
+    width: 245px;
+    /* padding-right: 70px; */
+    /* padding-left: 10px; */
+    padding-top: 7px;
 }
 .buttons{
     size: 100px;
@@ -268,4 +289,8 @@ margin-right: 10px;
 .MuiMenuItem-root  {
     font-size: smaller;
     border-radius: 34px;
+}
+.menuLabelDisplay {
+    display: flex;
+    flex-direction: row;
 }
