@@ -1,270 +1,250 @@
 import React, { Component } from 'react';
-import AddAlertIcon from '@material-ui/icons/AddAlert';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import MoreIcon from '@material-ui/icons/More';
-import CloseIcon from '@material-ui/icons/Close';
-import { pinUnpin } from '../components/Service';
-import { noteAddTotrash } from '../components/Service';
-import { addToarchiveList } from '../components/Service';
-import Menu from '@material-ui/core/Menu';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import { Card } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { getLabels } from '../components/Service';
-import { removeFromArchiveList } from '../components/Service';
-import ListItemText from '@material-ui/core/ListItemText';
-import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
-import { AppBar, Button, Toolbar, IconButton, ListItemIcon, makeStyles, withStyles } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import DoneIcon from '@material-ui/icons/Done';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import TextField from '@material-ui/core/TextField';
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
-import { displaySingleNote } from '../components/Service';
-import { addReminderToNote } from '../components/Service';
-import { addEmailToNote } from '../components/Service';
-import AddAlertOutlinedIcon from '@material-ui/icons/AddAlertOutlined';
-import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
-import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
-import MoreOutlinedIcon from '@material-ui/icons/MoreOutlined';
-import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
-import UnarchiveOutlinedIcon from '@material-ui/icons/UnarchiveOutlined';
-import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
-import {addLabelToNote} from '../components/Service';
-import {setNoteBackgroudColor}  from '../components/Service';
+// import AddAlertIcon from '@material-ui/icons/AddAlert';
+// import PersonAddIcon from '@material-ui/icons/PersonAdd';
+// import ColorLensIcon from '@material-ui/icons/ColorLens';
+// import ArchiveIcon from '@material-ui/icons/Archive';
+// // import MoreIcon from '@material-ui/icons/More';
+// import CloseIcon from '@material-ui/icons/Close';
+// import { pinUnpin } from '../components/Service';
+// import { noteAddTotrash } from '../components/Service';
+// import { addToarchiveList } from '../components/Service';
+// import Menu from '@material-ui/core/Menu';
+// import MenuList from '@material-ui/core/MenuList';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import { Card } from '@material-ui/core';
+// import Paper from '@material-ui/core/Paper';
+// import Popper from '@material-ui/core/Popper';
+// import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+// import { getLabels } from '../components/Service';
+// import { removeFromArchiveList } from '../components/Service';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
+// import { AppBar, Button, Toolbar, IconButton, ListItemIcon, makeStyles, withStyles } from '@material-ui/core';
+// import Avatar from '@material-ui/core/Avatar';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import DoneIcon from '@material-ui/icons/Done';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+// import Dialog from '@material-ui/core/Dialog';
+// import PersonIcon from '@material-ui/icons/Person';
+// import AddIcon from '@material-ui/icons/Add';
+// import TextField from '@material-ui/core/TextField';
+// import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+// import { displaySingleNote } from '../components/Service';
+// import { addReminderToNote } from '../components/Service';
+// import { addEmailToNote } from '../components/Service';
+// import AddAlertOutlinedIcon from '@material-ui/icons/AddAlertOutlined';
+// import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
+// import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
+// import MoreOutlinedIcon from '@material-ui/icons/MoreOutlined';
+// import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
+// import UnarchiveOutlinedIcon from '@material-ui/icons/UnarchiveOutlined';
+// import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
+// import {addLabelToNote} from '../components/Service';
+// import {setNoteBackgroudColor}  from '../components/Service';
+import ReminderSetIcon from '../components/ReminderSetIcon';
+import CollaboratorAddIcon from '../components/CollaboratorAddIcon';
+import BackGroundColorChangeIcon from '../components/BackGroundColorChangeIcon';
+import ArchiveUnArchiveIcon from '../components/ArchiveUnArchiveIcon';
+import MoreIcon from '../components/MoreIcon';
 const ITEM_HEIGHT = 48;
 
 class NoteIconOpration extends Component {
-    state = {
-        anchorEl: null,
-        anchorEl2: false,
-        anchorEl3: null,
-        anchorEl4: false,
-        open: true,
-        labelStore: [],
-        collaboratorOpen: false,
-        singleNoteData: [],
-        time: '',
-        date: '',
-        setTime: '',
-        colaborateEmailId: '',
-        collaboratedData :[],
-        labelStore1: []
-    };
-    constructor(props) {
-        super(props)
-        //    this.state = {
-        //        collaboratorOpen : false
-        //    }
-    }
-    handlChange = (event) => {
-        console.log("handlechange")
-        this.setState({
-            [event.target.name]: event.target.value
-        }, () =>
-            console.log(this.state, '---->name'))
-    }
-    setPinToNote = (id) => {
-        pinUnpin(id)
-            .then(Response => {
-                console.log(Response)
-                alert(Response.data.message)
-            })
-            .catch((error) => {
-                console.log(error.response)
-                alert(error.response.data)
-            })
-    }
+    // state = {
+    //     anchorEl: null,
+    //     anchorEl2: false,
+    //     anchorEl3: null,
+    //     anchorEl4: false,
+    //     open: true,
+    //     labelStore: [],
+    //     collaboratorOpen: false,
+    //     singleNoteData: [],
+    //     time: '',
+    //     date: '',
+    //     setTime: '',
+    //     colaborateEmailId: '',
+    //     collaboratedData :[],
+    //     labelStore1: []
+    // };
 
-    handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    }
+    // handlChange = (event) => {
+    //     this.setState({
+    //         [event.target.name]: event.target.value
+    //     }, () =>
+    //         console.log(this.state, '---->name'))
+    // }
 
-    handleClick1 = () => {
-        console.log("heee");
-        this.setState({ anchorEl2: true });
-        console.log("heee", this.anchorEl);
-        this.getListOfLabel();
-    }
+    // setPinToNote = (id) => {
+    //     pinUnpin(id)
+    //         .then(Response => {
+    //             alert(Response.data.message)
+    //         })
+    //         .catch((error) => {
+    //             alert(error.response.data)
+    //         })
+    // }
 
-    handleClickOpenColor = event => {
-        this.setState({ anchorEl3: event.currentTarget });
-        // this.setState({ anchorEl3: true });
-    }
+    // handleClick = event => {
+    //     this.setState({ anchorEl: event.currentTarget });
+    // }
 
-    handleClose = () => {
-        this.setState({ anchorEl: null });
-    }
+    // handleClick1 = () => {
+    //     this.setState({ anchorEl2: true });
+    //     this.getListOfLabel();
+    // }
 
-    handleClose1 = () => {
-        this.setState({ anchorEl2: false });
-    }
+    // handleClickOpenColor = event => {
+    //     this.setState({ anchorEl3: event.currentTarget });
+    //     // this.setState({ anchorEl3: true });
+    // }
 
-    handleCloseColor = () => {
-        this.setState({ anchorEl3: false });
-    }
+    // handleClose = () => {
+    //     this.setState({ anchorEl: null });
+    // }
 
-    closeReminderPicker = () => {
-        this.setState({
-            anchorEl4: false
-        })
-    }
+    // handleClose1 = () => {
+    //     this.setState({ anchorEl2: false });
+    // }
 
-    addNoteToTrash = (id) => {
-        noteAddTotrash(id).then(Response => {
-            console.log(Response)
-            alert(Response.data.message)
-            this.callBackData();
-        }).catch((error) => {
+    // handleCloseColor = () => {
+    //     this.setState({ anchorEl3: false });
+    // }
 
-            console.log(error.response)
-            alert(error.response.data)
-        })
-    }
+    // closeReminderPicker = () => {
+    //     this.setState({
+    //         anchorEl4: false
+    //     })
+    // }
 
-    addToArchive = (id) => {
-        addToarchiveList(id).then(Response => {
-            console.log(Response)
-            alert(Response.data.message)
-            this.callBackData();
-        }).catch((error) => {
+    // addNoteToTrash = (id) => {
+    //     noteAddTotrash(id).then(Response => {
+    //         alert(Response.data.message)
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //         alert(error.response.data)
+    //     })
+    // }
 
-            console.log("erroe", error.response.message)
-            alert(error.response.data)
-        })
-    }
-    removeFromArchive = (id) => {
-        removeFromArchiveList(id).then(Response => {
-            console.log(Response)
-            alert(Response.data.message)
-            this.callBackData();
-        }).catch((error) => {
+    // addToArchive = (id) => {
+    //     addToarchiveList(id).then(Response => {
+    //         alert(Response.data.message)
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //         alert(error.response.data)
+    //     })
+    // }
 
-            console.log("erroe", error.response.message)
-            alert(error.response.data)
-        })
-    }
-    getListOfLabel = () => {
-        getLabels().then(Response => {
-            this.setState({
-                labelStore: Response.data.data
-            })
+    // removeFromArchive = (id) => {
+    //     removeFromArchiveList(id).then(Response => {
+    //         alert(Response.data.message)
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //         alert(error.response.data)
+    //     })
+    // }
 
-            console.log("label", this.state.labelStore)
-            console.log("getAlllabel3", this.state.labelStore);
-            // console.log("getAlllabel4", this.state.labelStore.labelId);
-        })
-            .catch((error) => {
-                alert(error.response.data.message)
-                console.log(error.response.data.data)
-            })
-    }
+    // getListOfLabel = () => {
+    //     getLabels().then(Response => {
+    //         this.setState({
+    //             labelStore: Response.data.data
+    //         })
+    //     })
+    //         .catch((error) => {
+    //             alert(error.response.data.message)
+    //         })
+    // }
     
-    collaboratorListOpen = () => {
-        displaySingleNote(this.props.data).then(Response => {
-            this.setState({
-                singleNoteData: Response.data.data.model,
-                collaboratedData :Response.data.data.collaboratorOutsList,
-                collaboratorOpen: true
-            })
-            console.log("collaborator data ", this.state.collaboratedData)
-            console.log("single note data ", this.state.singleNoteData)
-        })
-            .catch((error) => {
-                alert(error.response.data.message)
-                console.log(error.response.data.data)
-            })
+    // collaboratorListOpen = () => {
+    //     displaySingleNote(this.props.data).then(Response => {
+    //         this.setState({
+    //             singleNoteData: Response.data.data.model,
+    //             collaboratedData :Response.data.data.collaboratorOutsList,
+    //             collaboratorOpen: true
+    //         })
+    //     }).catch((error) => {
+    //             alert(error.response.data.message)
+    //         })
+    // }
 
-    }
-    handleCloseCollaborator = () => {
-        this.setState({
-            collaboratorOpen: false
-        })
-    }
-    openReminder = () => {
-        this.setState({ anchorEl4: true })
-    }
+    // handleCloseCollaborator = () => {
+    //     this.setState({
+    //         collaboratorOpen: false
+    //     })
+    // }
 
-    changeBackGroudColor = (colorChnage) => {
-        let note = {};
-        note.noteId = this.props.data;
-        note.backgroundColor = colorChnage;
-        console.log("notebackground ", note)
-        setNoteBackgroudColor(note).then(Response => {
-            console.log("reminder", Response.data.data)
-            this.callBackData();
-        })
-            .catch((error) => {
-                alert(error.response.data.message)
-                console.log(error.response.data.data)
-            })
-    }
+    // openReminder = () => {
+    //     this.setState({ anchorEl4: true })
+    // }
 
-    addColaborateEmailId = () => {
-        addEmailToNote(this.props.data, this.state.colaborateEmailId).then(Response => {
-            console.log(Response)
-            alert(Response.data.message)
-            this.callBackData();
-        }).catch((error) => {
-            console.log(error.response)
-            alert(error.response.data)
-        })
-    }
+    // changeBackGroudColor = (colorChnage) => {
+    //     let note = {};
+    //     note.noteId = this.props.data;
+    //     note.backgroundColor = colorChnage;
+    //     setNoteBackgroudColor(note).then(Response => {
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //             alert(error.response.data.message)
+    //         })
+    // }
 
-    setReminder = (id) => {
-        // this.setState ({
-        //     setTime : this.state.date.concat(' '+this.state.time)
-        // });
-        console.log(this.state.setTime);
-        addReminderToNote(id, this.state.date.concat(' ' + this.state.time)).then(Response => {
-            console.log("reminder", Response.data.data)
-            this.callBackData();
-        })
-            .catch((error) => {
-                alert(error.response.data.message)
-                console.log(error.response.data.data)
-            })
-    }
-    addLabelToNotes =( labelId ) =>{
-        addLabelToNote(  this.props.data, labelId ).then(Response => {
-            console.log(Response)
-            alert(Response.data.message)
-            this.callBackData();
-        }).catch((error) => {
-            console.log(error.response)
-            alert(error.response.data)
-        })
-    }
+    // addColaborateEmailId = () => {
+    //     addEmailToNote(this.props.data, this.state.colaborateEmailId).then(Response => {
+    //         alert(Response.data.message)
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //         alert(error.response.data)
+    //     })
+    // }
+
+    // setReminder = (id) => {
+
+    //     console.log(this.state.setTime);
+    //     addReminderToNote(id, this.state.date.concat(' ' + this.state.time)).then(Response => {
+    //         console.log("reminder", Response.data.data)
+    //         this.callBackData();
+    //     })
+    //         .catch((error) => {
+    //             alert(error.response.data.message)
+    //             console.log(error.response.data.data)
+    //         })
+    // }
+
+    // addLabelToNotes =( labelId ) =>{
+    //     addLabelToNote(  this.props.data, labelId ).then(Response => {
+    //         console.log(Response)
+    //         alert(Response.data.message)
+    //         this.callBackData();
+    //     }).catch((error) => {
+    //         console.log(error.response)
+    //         alert(error.response.data)
+    //     })
+    // }
+
     callBackData = () =>{
-        // if(this.props.displaySingleNote === true){
-            // this.props.callBackDisplayNoteData();
-        // }else{
+        if(this.props.displaySingleNote === true){
+            this.props.callBackDisplayNoteData();
+        }else{
             this.props.callBackParentData();
-        // }
+        }
             
     }
     
     render() {
-        const { anchorEl, anchorEl2, anchorEl3, anchorEl4, open, collaboratorOpen } = this.state;
-        const { data } = this.props;
+        // const { anchorEl, anchorEl2, anchorEl3, anchorEl4, open, collaboratorOpen } = this.state;
+        // const { data } = this.props;
         return (
             <div style={{
                 "padding-bottom": '10px',
                 "padding-top": '5px', "display": 'flex',
                 "flex-direction": 'row'
             }}>
-                <div className="iconNotes">
+                <ReminderSetIcon data ={this.props.data} callBackData = {this.callBackData}></ReminderSetIcon>
+                <CollaboratorAddIcon data ={this.props.data} callBackData = {this.callBackData}></CollaboratorAddIcon>
+               <BackGroundColorChangeIcon data ={this.props.data} callBackData = {this.callBackData} ></BackGroundColorChangeIcon>
+               <ArchiveUnArchiveIcon  archieve = {this.props.archieve} data ={this.props.data} callBackData = {this.callBackData}></ArchiveUnArchiveIcon>
+               <MoreIcon data ={this.props.data} callBackData = {this.callBackData} ></MoreIcon>
+                {/* <div className="iconNotes">
                     <AddAlertOutlinedIcon onClick={() => this.openReminder()} />
                     <div style={{ "position": 'absolute' }} >
                         <Popper style={{ "width": '200px', "paddingLeft": '10px' }}
@@ -330,8 +310,8 @@ class NoteIconOpration extends Component {
                             </Paper>
                         </Popper>
                     </div>
-                </div>
-                <div className="iconNotes"   > <PersonAddOutlinedIcon onClick={() => this.collaboratorListOpen()} />
+                </div> */}
+                {/* <div className="iconNotes"   > <PersonAddOutlinedIcon onClick={() => this.collaboratorListOpen()} />
                     <Dialog aria-labelledby="simple-dialog-title"
                         open={collaboratorOpen}
                         onClose={this.handleCloseCollaborator}
@@ -377,8 +357,8 @@ class NoteIconOpration extends Component {
                             </ListItem>
                         </List>
                     </Dialog>
-                </div>
-                <div className="iconNotes">
+                </div> */}
+                {/* <div className="iconNotes">
                     <ColorLensOutlinedIcon className="iconNotes"
                         style={{ "margin": '-10px' }}
                         //   aria-owns={anchorEl3 ? 'iconNotes' : undefined}
@@ -413,14 +393,14 @@ class NoteIconOpration extends Component {
                             </div>
                         </Menu>
                     </div>
-                </div>
-                <div className="iconNotes">
+                </div> */}
+                {/* <div className="iconNotes">
                     {this.props.archieve ? <UnarchiveOutlinedIcon onClick={() => this.removeFromArchive(this.props.data)}></UnarchiveOutlinedIcon>
                         : <ArchiveOutlinedIcon onClick={() => this.addToArchive(this.props.data)} />
                     }
-                </div>
+                </div> */}
 
-                <div className="iconNotes">
+                {/* <div className="iconNotes">
                     <MoreOutlinedIcon className="iconNotes"
                         style={{ "margin": '-10px' }}
                         // aria-owns={anchorEl ? 'iconNotes' : undefined}
@@ -492,7 +472,7 @@ class NoteIconOpration extends Component {
                                                              :
                                                              null
                                                             } */}
-                                                        </div>
+                                                        {/* </div>
 
                                                     ))}
                                                     
@@ -505,20 +485,20 @@ class NoteIconOpration extends Component {
                                                              :
                                                              null
                                                             }
-                                                    
+                                                     */}
 {/*                                                     
                                                     <CheckBoxOutlinedIcon style={{ "padding-right": '5px' }} />
                                                     <MenuItem style={{ "margin-top": '-6px' }} onClick ={()=> {this.addLabelToNotes(o.labelId);}}>{o.labelName}
                                                     </MenuItem> */}
-                                                </div>
+                                                {/* </div>
                                             ))}
                                         </MenuList>
                                     </Paper>
                                 </Popper>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */} 
 
             </div>
         );
