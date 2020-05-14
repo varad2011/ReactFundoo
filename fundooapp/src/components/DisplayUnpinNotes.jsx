@@ -34,11 +34,13 @@ class DisplayUnpinNotes extends Component {
     }
 
     displayNoteData = (noteId) => {
+
         displaySingleNote(noteId).then(Response => {
             this.setState({
                 noteData: Response.data.data
             })
             console.log(Response.data.data)
+             this.callBackParentData();
         })
             .catch((error) => {
                 console.log(this.state.store)
@@ -114,7 +116,7 @@ callBackParentData =() =>{
                             </div>
                             <div className="reminderDiv" >
                                 {o.noteReminder === true ?
-                                    <MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' }}>
+                                    <MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller', "position":'static' }}>
                                         <div  style={{ "padding-top": '4px' }}> <AccessTimeIcon fontSize="small" /> </div>
                                         <div>  {o.reminderDatTime.substring(11, 16)}</div>
                                         <div>
@@ -123,7 +125,7 @@ callBackParentData =() =>{
                                     </MenuItem>
                                     : null}
                                 {o.labelModel.map(label => (
-                                    < MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' ,"padding-right": '0px' }}>
+                                    < MenuItem style={{ "borderRadius": '40px', "fontSize": 'smaller' ,"padding-right": '0px',"position":'static' }}>
                                     <div>  {label.labelName}</div>
                                     <div>
                                     <CancelOutlinedIcon  style={{  "fontSize": '20px' }}  onClick = {() =>{this.removeLabel(label.labelId, o.noteId);}}/>
@@ -149,8 +151,7 @@ callBackParentData =() =>{
                 }
                 <SingleNoteDisplay
                     noteData={this.state.noteData}
-                    //    noteId = {o.noteId}
-                    //    title = {o.title}
+                    callBackSingleNote = {this.displayNoteData}
                     openNote={this.state.displaySingleNote}
                     closeNote={this.handleCloseNoteDilogbox}>
                 </SingleNoteDisplay>
